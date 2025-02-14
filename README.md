@@ -3,9 +3,9 @@ AI powered chat for student assistance in personalized learning and question slo
 
 1) The Learning Path Generator is a Flask-based web application designed to help users create personalized learning paths for various topics. It leverages the Gemini AI model to generate structured learning modules, detailed explanations, and quizzes. The application also integrates with the YouTube Data API to fetch relevant educational videos for each subtopic .
 
-2)# Prompt Classification & Output Formatting
+2) Prompt Classification & Output Formatting
 
-The chatbot classifies a student's prompt as either a Topic or a Question using Natural Language Processing (NLP) and formats the output accordingly.
+The chatbot classifies a student's prompt as either a "Topic" or a "Question" using Natural Language Processing (NLP) and formats the output accordingly.
 
 i) Prompt Classification
 

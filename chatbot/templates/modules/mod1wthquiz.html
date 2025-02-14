@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Path Result</title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        /* Sidebar styling */
+        .sidebar {
+            width: 250px;
+            background-color: #f4f4f4;
+            padding: 10px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+        .sidebar h2 {
+            text-align: center;
+        }
+        .module {
+            margin: 10px 0;
+            position: relative; /* To position the Go button relative to this container */
+        }
+        .module button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 100%; /* Full width for the module button */
+            text-align: left; /* Align text to the left */
+            position: relative; /* For proper layering with the Go button */
+        }
+        .module button:hover {
+            background-color: #0056b3;
+        }
+        .go-button {
+            position: relative; /* Overlay the Go button */
+            top: 50%; /* Center vertically relative to the module button */
+            right: -200px; /* Align to the right */
+            transform: translateY(-50%); /* Perfect vertical centering */
+            padding: 1px 1px !important;
+            font-size: 14px;
+            width: 5px;
+            cursor: pointer;
+            background-color: #e1e1e1  !important;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            z-index: 2; /* Ensure it stays above the module button */
+        }
+        .go-button:hover {
+            background-color: #218838!important;
+        }
+        .content {
+            margin-left: 270px; /* Leave space for the sidebar */
+            padding: 20px;
+        }
+        .subtopics {
+            margin-left: 20px;
+            display: none; /* Hidden by default */
+        }
+        /* Quiz button styling */
+        .quiz-button {
+            position: fixed;
+            bottom: 20px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .chat-button:hover {
+            background-color: #0056b3;
+        }
+        /* chat button styling */
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 53px;
+            width: 40px;
+            height: 40px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .quiz-button:hover {
+            background-color: #0056b3;
+        }
+        /* Popup styling */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .popup {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .popup .close-button {
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+        }
+    </style>
+    <script>
+        function toggleSubtopics(moduleId) {
+            const element = document.getElementById(moduleId);
+            if (element.style.display === "none" || element.style.display === "") {
+                element.style.display = "block"; // Show subtopics
+            } else {
+                element.style.display = "none"; // Hide subtopics
+            }
+        }
+        function openPopup() {
+            document.querySelector('.popup-overlay').style.display = 'flex';
+            document.body.style.filter = 'blur(5px)';
+        }
+        function closePopup() {
+            document.querySelector('.popup-overlay').style.display = 'none';
+            document.body.style.filter = 'none';
+        }
+    </script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Modules</h2>
+        {% for module_name, subtopics in modules.items() %}
+        <div class="module">
+            <!-- Module button -->
+            <button onclick="toggleSubtopics('module{{ loop.index }}')">{{ module_name }}</button>
+            <!-- Go button -->
+            <button class="go-button" onclick="window.location.href='/{{ loop.index }}'">Go</button>
+            <ul id="module{{ loop.index }}" class="subtopics">
+                {% for subtopic in subtopics %}
+                <li>{{ subtopic }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Main content -->
+    <div class="content">
+        <h1>{{ module[0] }}</h1>
+        <div>
+            <p>{{ text[0] }}</p>
+            <iframe width="560" height="315" src={{links[0][0]}}></iframe>
+        </div>
+    
+        <h1>{{ module[1] }}</h1>
+        <div>
+            <p>{{ text[1] }}</p>
+            <iframe width="560" height="315" src={{links[1][0]}}></iframe>
+        </div>
+        <h1>{{ module[2] }}</h1>
+        <div>
+            <p>{{ text[2] }}</p>
+            <iframe width="560" height="315" src={{links[2][0]}}></iframe>
+        </div>
+        <h1>{{ module[3] }}</h1>
+        <div>
+            <p>{{ text[3] }}</p>
+            <iframe width="560" height="315" src={{links[3][0]}}></iframe>
+        </div>
+        <h1>{{ module[4] }}</h1>
+        <div>
+            <p>{{ text[4] }}</p>
+            <iframe width="560" height="315" src={{links[4][0]}}></iframe>
+        </div>
+    </div>
+    <!-- Quiz Button -->
+<button class="quiz-button" onclick="loadQuiz()">Quiz</button>
+<button class="chat-button" onclick="window.location.href='/c'">chat</button>
+
+<!-- Popup -->
+<div class="popup-overlay">
+    <div class="popup">
+        <button class="close-button" onclick="closePopup()">Close</button>
+        <div id="quiz-content">
+            <!-- Quiz content will be dynamically loaded here -->
+            <p>Loading quiz...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openPopup() {
+        document.querySelector('.popup-overlay').style.display = 'flex';
+        document.body.style.filter = 'blur(0px)';
+    }
+
+    function closePopup() {
+        document.querySelector('.popup-overlay').style.display = 'none';
+        document.body.style.filter = 'none';
+    }
+
+    function loadQuiz() {
+        openPopup();
+        // Fetch quiz content dynamically
+        fetch('/q1')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('quiz-content').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('quiz-content').innerHTML = `<p>Error loading quiz. Please try again later.</p>`;
+                console.error('Error fetching quiz:', error);
+            });
+    }
+    function ldchat() {
+
+        fetch('/c')
+    }
+</script>
+    
+    </div>
+</body>
+</html>

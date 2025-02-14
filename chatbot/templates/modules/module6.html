@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Path Result</title>
+    <style>
+        /* General body styling */
+body {
+    font-family: 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+    background: linear-gradient(135deg, #645CBB, #2A2438); /* Dusky gradient */
+    color: #ffffff;
+    overflow: hidden;
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 250px;
+    background: #2A2438; /* Deep dusky background for sidebar */
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    overflow-y: auto;
+    position: fixed;
+    border-right: 2px solid #645CBB;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #F5EAEA;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #645CBB;
+    padding-bottom: 10px;
+}
+
+.module {
+    margin-bottom: 15px;
+    display: flex; /* Align the buttons side-by-side */
+    align-items: center; /* Vertically align buttons */
+}
+
+.module button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    background: #645CBB; /* Highlighted module button */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    text-align: left;
+    flex-grow: 1; /* Make the module button occupy available space */
+    transition: background 0.3s, transform 0.2s;
+}
+
+.module button:hover {
+    background: #7D67D2;
+    transform: translateX(5px);
+}
+
+.go-button {
+    width: 40px; /* Square size */
+    height: 40px; /* Square size */
+    margin-left: 10px; /* Add spacing between buttons */
+    background-color: #645CBB;
+    color: white;
+    border: none;
+    border-radius: 8px; /* Slightly rounded corners */
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex; /* Center text inside the button */
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.go-button:hover {
+    background: #7D67D2;
+    transform: translateY(-3px); /* Slight hover effect */
+}
+
+/* Subtopics styling */
+.subtopics {
+    margin-left: 20px;
+    list-style: none;
+    padding: 10px 0 0 0;
+    display: none; /* Hidden by default */
+}
+
+.subtopics li {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: #F5EAEA;
+}
+
+/* Main content styling */
+.content {
+    margin-left: 300px;
+    padding: 20px;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.content h1 {
+    font-size: 2rem;
+    color: #F5EAEA;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #645CBB;
+    padding-bottom: 10px;
+}
+
+.content p {
+    font-size: 1.1rem;
+    color: #E8DFE0;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+iframe {
+    border: 2px solid #645CBB;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+       /* Quiz button styling */
+       .quiz-button {
+            position: fixed;
+            bottom: 20px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: #645CBB;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .chat-button:hover {
+            background-color: #7D67D2;
+        }
+        /* chat button styling */
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 53px;
+            width: 40px;
+            height: 40px;
+            background-color: #645CBB;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .quiz-button:hover {
+            background-color: #7D67D2;
+        }
+          /* Popup styling */
+          .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .popup {
+            background-color:#645CBB;
+            padding: 20px;
+            border-radius: 10px;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .popup .close-button {
+            background-color: #7D67D2;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+        }
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .content {
+        margin-left: 220px;
+    }
+}
+
+@media (max-width: 576px) {
+    .sidebar {
+        position: absolute;
+        z-index: 10;
+        width: 100%;
+        height: auto;
+        border-right: none;
+    }
+
+    .content {
+        margin-left: 0;
+        padding: 15px;
+    }
+}
+
+    </style>
+    <script>
+        function toggleSubtopics(moduleId) {
+            const element = document.getElementById(moduleId);
+            if (element.style.display === "none" || element.style.display === "") {
+                element.style.display = "block"; // Show subtopics
+            } else {
+                element.style.display = "none"; // Hide subtopics
+            }
+        }
+        function openPopup() {
+            document.querySelector('.popup-overlay').style.display = 'flex';
+            document.body.style.filter = 'blur(5px)';
+        }
+        function closePopup() {
+            document.querySelector('.popup-overlay').style.display = 'none';
+            document.body.style.filter = 'none';
+        }
+    </script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Modules</h2>
+        {% for module_name, subtopics in modules.items() %}
+        <div class="module">
+            <!-- Module button -->
+            <button onclick="toggleSubtopics('module{{ loop.index }}')">{{ module_name }}</button>
+            <!-- Go button -->
+            <button class="go-button" onclick="window.location.href='/{{ loop.index }}'">Go</button>
+            <ul id="module{{ loop.index }}" class="subtopics">
+                {% for subtopic in subtopics %}
+                <li>{{ subtopic }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Main content -->
+    <div class="content">
+        <h1>{{ module[0] }}</h1>
+    <div>
+        <p>{{ text[0] }}</p>
+        <iframe width="560" height="315" src={{links[0][0]}}></iframe>
+    </div>
+
+    <h1>{{ module[1] }}</h1>
+    <div>
+        <p>{{ text[1] }}</p>
+        <iframe width="560" height="315" src={{links[1][0]}}></iframe>
+    </div>
+    <h1>{{ module[2] }}</h1>
+    <div>
+        <p>{{ text[2] }}</p>
+        <iframe width="560" height="315" src={{links[2][0]}}></iframe>
+    </div>
+    <h1>{{ module[3] }}</h1>
+    <div>
+        <p>{{ text[3] }}</p>
+        <iframe width="560" height="315" src={{links[3][0]}}></iframe>
+    </div>
+    <h1>{{ module[4] }}</h1>
+    <div>
+        <p>{{ text[4] }}</p>
+        <iframe width="560" height="315" src={{links[4][0]}}></iframe>
+    </div>
+    </div>
+       <!-- Quiz Button -->
+<button class="quiz-button" onclick="loadQuiz()">Quiz</button>
+<button class="chat-button" onclick="window.location.href='/c'">chat</button>
+<!-- Popup -->
+<div class="popup-overlay">
+    <div class="popup">
+        <button class="close-button" onclick="closePopup()">Close</button>
+        <div id="quiz-content">
+            <!-- Quiz content will be dynamically loaded here -->
+            <p>Loading quiz...</p>
+        </div>
+    </div>
+</div>
+<script>
+    function openPopup() {
+        document.querySelector('.popup-overlay').style.display = 'flex';
+        document.body.style.filter = 'blur(0px)';
+    }
+
+    function closePopup() {
+        document.querySelector('.popup-overlay').style.display = 'none';
+        document.body.style.filter = 'none';
+    }
+
+    function loadQuiz() {
+        openPopup();
+        // Fetch quiz content dynamically
+        fetch('/q1')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('quiz-content').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('quiz-content').innerHTML = `<p>Error loading quiz. Please try again later.</p>`;
+                console.error('Error fetching quiz:', error);
+            });
+    }
+    function ldchat() {
+
+        fetch('/c')
+    }
+</script>
+
+</body>
+</html>

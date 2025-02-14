@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Path Result</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: black;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        /* Header styling */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #333;
+        }
+
+        /* Logo styling */
+        .logo img {
+            height: 30px;  /* Adjust logo size to be smaller */
+        }
+
+        /* Navigation Bar styling */
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 20px;  /* Space between nav items */
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Add responsiveness if needed */
+        @media (max-width: 768px) {
+            nav ul {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin-bottom: 10px;
+        }
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: rgba(42, 36, 56, 0.8);
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+            border-right: 2px solid rgba(100, 92, 187, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #F5EAEA;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #645CBB;
+            padding-bottom: 10px;
+        }
+
+        .module {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .module button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            cursor: pointer;
+            background: linear-gradient(135deg, #ff6a00, #ffb400);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            text-align: left;
+            flex-grow: 1;
+            transition: all 0.3s ease;
+        }
+
+        .module button:hover {
+            transform: translateX(5px);
+            background: linear-gradient(135deg, #ffb400, #ff6a00);
+        }
+
+        .go-button {
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            background: linear-gradient(135deg, #ff6a00, #ffb400);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .go-button:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, #ffb400, #ff6a00);
+        }
+
+        .subtopics {
+            margin-left: 20px;
+            list-style: none;
+            padding: 10px 0 0 0;
+            display: none;
+        }
+
+        .subtopics li {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #F5EAEA;
+        }
+
+        .content {
+            margin-left: 300px;
+            padding: 20px;
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 53px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #ff6a00, #ffb400);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, #ffb400, #ff6a00);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Logo that acts as home button -->
+        <a href="/" class="logo">
+            <img src="static/astronaut.png" alt="Website Logo" />
+        </a>
+
+        <!-- Navigation Bar -->
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/">About</a></li>
+                <li><a href="/">Services</a></li>
+                <li><a href="/">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <canvas id="space"></canvas>
+    <div class="sidebar" id="moduleSidebar">
+        <h2>Modules</h2>
+        {% for module_name, subtopics in modules.items() %}
+        {% if module_name not in seen_modules %}
+        <div class="module">
+            <button onclick="toggleSubtopics('module{{ loop.index }}')" class="module-button">{{ module_name }}</button>
+            <button class="go-button" onclick="window.location.href='/{{ loop.index }}'">Go</button>
+            <ul id="module{{ loop.index }}" class="subtopics">
+                {% for subtopic in subtopics %}
+                <li>{{ subtopic }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <button class="chat-button" onclick="window.location.href='/c'">chat</button>
+    <div class="content">
+        <h1>Generated Learning Path</h1>
+        <p>Select a module from the sidebar</p>
+    </div>
+    <script>
+        const canvas = document.getElementById('space');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const stars = Array.from({ length: 200 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 2 + 1,
+            speed: Math.random() * 0.5 + 0.1
+        }));
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'white';
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fill();
+                star.y += star.speed;
+                if (star.y > canvas.height) star.y = 0;
+            });
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+
+        function toggleSubtopics(moduleId) {
+            const element = document.getElementById(moduleId);
+            if (element.style.display === "none" || element.style.display === "") {
+                element.style.display = "block";
+            } else {
+                element.style.display = "none";
+            }
+        }
+
+        function updateModules(modules) {
+    const sidebarContent = document.querySelector('.sidebar');
+    // Keep only the h2 title
+    sidebarContent.innerHTML = '<h2>Modules</h2>';
+    
+    // Add new modules
+    Object.entries(modules).forEach(([moduleName, subtopics], index) => {
+        const moduleDiv = document.createElement('div');
+        moduleDiv.className = 'module';
+        
+        moduleDiv.innerHTML = `
+            <button onclick="toggleSubtopics('module${index + 1}')">${moduleName}</button>
+            <button class="go-button" onclick="window.location.href='/${index + 1}'">Go</button>
+            <ul id="module${index + 1}" class="subtopics">
+                ${subtopics.map(topic => `<li>${topic}</li>`).join('')}
+            </ul>
+        `;
+        
+        sidebarContent.appendChild(moduleDiv);
+    });
+}
+    </script>
+</body>
+</html>

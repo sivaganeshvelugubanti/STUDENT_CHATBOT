@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Path Result</title>
+    <style>
+        /* General Styling */
+        body {
+            display: flex;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #F6E6E7, #D8345F);
+            color: #333;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            background-color: #D8345F;
+            color: white;
+            padding: 10px;
+            box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2);
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #F6E6E7;
+        }
+
+        .module {
+            margin: 15px 0;
+        }
+
+        .module button {
+            background-color: #F6E6E7;
+            color: #333;
+            border: none;
+            padding: 12px 15px;
+            font-size: 16px;
+            width: 100%;
+            text-align: left;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .module button:hover {
+            background-color: #FF7891;
+            transform: translateY(-2px);
+        }
+
+        .go-button {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #F6E6E7;
+            color: #D8345F;
+            border: none;
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .go-button:hover {
+            background-color: #FF7891;
+            color: white;
+        }
+
+        .subtopics {
+            margin-left: 20px;
+            display: none; /* Hidden by default */
+            padding-left: 10px;
+            border-left: 2px solid #F6E6E7;
+        }
+
+        .subtopics li {
+            margin: 5px 0;
+            color: #F6E6E7;
+        }
+
+        /* Main Content */
+        .content {
+            margin-left: 270px; /* Leave space for the sidebar */
+            padding: 30px;
+        }
+
+        .content h1 {
+            color: #D8345F;
+            font-size: 24px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #F6E6E7;
+            padding-bottom: 5px;
+        }
+
+        .content p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        iframe {
+            border: none;
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        /* Quiz Button Styling */
+        .quiz-button,
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #D8345F;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quiz-button {
+            right: 20px;
+        }
+
+        .chat-button {
+            right: 80px;
+        }
+
+        .quiz-button:hover,
+        .chat-button:hover {
+            background-color: #FF7891;
+        }
+
+        /* Popup Styling */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup .close-button {
+            background-color: #D8345F;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+        }
+
+        .popup .close-button:hover {
+            background-color: #FF7891;
+        }
+    </style>
+    <script>
+        function toggleSubtopics(moduleId) {
+            const element = document.getElementById(moduleId);
+            element.style.display = element.style.display === "none" || element.style.display === "" ? "block" : "none";
+        }
+
+        function openPopup() {
+            document.querySelector('.popup-overlay').style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.querySelector('.popup-overlay').style.display = 'none';
+        }
+
+        function loadQuiz() {
+            openPopup();
+            fetch('/q1')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('quiz-content').innerHTML = data;
+                })
+                .catch(error => {
+                    document.getElementById('quiz-content').innerHTML = '<p>Error loading quiz. Please try again later.</p>';
+                    console.error('Error fetching quiz:', error);
+                });
+        }
+    </script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Modules</h2>
+        {% for module_name, subtopics in modules.items() %}
+        <div class="module">
+            <button onclick="toggleSubtopics('module{{ loop.index }}')">{{ module_name }}</button>
+            <button class="go-button" onclick="window.location.href='/{{ loop.index }}'">Go</button>
+            <ul id="module{{ loop.index }}" class="subtopics">
+                {% for subtopic in subtopics %}
+                <li>{{ subtopic }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>{{ module[0] }}</h1>
+        <div>
+            <p>{{ text[0] }}</p>
+            <iframe width="560" height="315" src="{{ links[0][0] }}"></iframe>
+        </div>
+        <h1>{{ module[1] }}</h1>
+        <div>
+            <p>{{ text[1] }}</p>
+            <iframe width="560" height="315" src={{links[1][0]}}></iframe>
+        </div>
+        <h1>{{ module[2] }}</h1>
+        <div>
+            <p>{{ text[2] }}</p>
+            <iframe width="560" height="315" src={{links[2][0]}}></iframe>
+        </div>
+        <h1>{{ module[3] }}</h1>
+        <div>
+            <p>{{ text[3] }}</p>
+            <iframe width="560" height="315" src={{links[3][0]}}></iframe>
+        </div>
+        <h1>{{ module[4] }}</h1>
+        <div>
+            <p>{{ text[4] }}</p>
+            <iframe width="560" height="315" src={{links[4][0]}}></iframe>
+        </div>
+        <!-- Repeat other sections as needed -->
+    </div>
+
+    <!-- Quiz & Chat Buttons -->
+    <button class="quiz-button" onclick="loadQuiz()">Q</button>
+    <button class="chat-button" onclick="window.location.href='/c'">C</button>
+
+    <!-- Popup -->
+    <div class="popup-overlay">
+        <div class="popup">
+            <button class="close-button" onclick="closePopup()">Close</button>
+            <div id="quiz-content">
+                <p>Loading quiz...</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

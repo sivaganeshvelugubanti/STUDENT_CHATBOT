@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Path Result</title>
+    <style>
+        .module {
+            margin: 10px 0;
+            display: flex;
+            align-items: center; /* Align button and Go button horizontally */
+        }
+        .module button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            display: block;
+            margin-right: 10px; /* Space between the module button and the Go button */
+        }
+        .module button:hover {
+            background-color: #0056b3;
+        }
+        .go-button {
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .go-button:hover {
+            background-color: #218838;
+        }
+        .subtopics {
+            margin-left: 20px;
+            display: none; /* Hidden by default */
+        }
+    </style>
+    <script>
+        function toggleSubtopics(moduleId) {
+            const element = document.getElementById(moduleId);
+            if (element.style.display === "none" || element.style.display === "") {
+                element.style.display = "block"; // Show subtopics
+            } else {
+                element.style.display = "none"; // Hide subtopics
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Generated Learning Path</h1>
+    <div>
+        {% for module_name, subtopics in modules.items() %}
+        <div class="module">
+            <!-- Module button -->
+            <button onclick="toggleSubtopics('module{{ loop.index }}')">{{ module_name }}</button>
+            <!-- Go button -->
+            <button class="go-button" onclick="window.location.href='/{{ loop.index }}'">Go</button>
+            <ul id="module{{ loop.index }}" class="subtopics">
+                {% for subtopic in subtopics %}
+                <li>{{ subtopic }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+    <a href="/">Go back</a>
+</body>
+</html>

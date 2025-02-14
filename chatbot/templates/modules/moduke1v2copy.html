@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Path Result</title>
+    <style>
+        /* General body styling */
+body {
+    font-family: 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+    background: linear-gradient(135deg, #645CBB, #2A2438); /* Dusky gradient */
+    color: #ffffff;
+    overflow: hidden;
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 250px;
+    background: #2A2438; /* Deep dusky background for sidebar */
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    overflow-y: auto;
+    position: fixed;
+    border-right: 2px solid #645CBB;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #F5EAEA;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #645CBB;
+    padding-bottom: 10px;
+}
+
+.module {
+    margin-bottom: 15px;
+}
+
+.module button {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    background: #645CBB; /* Highlighted module button */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    text-align: left;
+    position: relative;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.module button:hover {
+    background: #7D67D2;
+    transform: translateX(5px);
+}
+
+.go-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    background: #F5EAEA;
+    color: #645CBB;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.go-button:hover {
+    background: #E8DFE0;
+}
+
+/* Subtopics styling */
+.subtopics {
+    margin-left: 20px;
+    list-style: none;
+    padding: 10px 0 0 0;
+    display: none; /* Hidden by default */
+}
+
+.subtopics li {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: #F5EAEA;
+}
+
+/* Main content styling */
+.content {
+    margin-left: 300px;
+    padding: 20px;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.content h1 {
+    font-size: 2rem;
+    color: #F5EAEA;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #645CBB;
+    padding-bottom: 10px;
+}
+
+.content p {
+    font-size: 1.1rem;
+    color: #E8DFE0;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+iframe {
+    border: 2px solid #645CBB;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .content {
+        margin-left: 220px;
+    }
+}
+
+@media (max-width: 576px) {
+    .sidebar {
+        position: absolute;
+        z-index: 10;
+        width: 100%;
+        height: auto;
+        border-right: none;
+    }
+
+    .content {
+        margin-left: 0;
+        padding: 15px;
+    }
+}
+
+    </style>
+    <script>
+        function toggleSubtopics(moduleId) {
+            const element = document.getElementById(moduleId);
+            if (element.style.display === "none" || element.style.display === "") {
+                element.style.display = "block"; // Show subtopics
+            } else {
+                element.style.display = "none"; // Hide subtopics
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Modules</h2>
+        {% for module_name, subtopics in modules.items() %}
+        <div class="module">
+            <!-- Module button -->
+            <button onclick="toggleSubtopics('module{{ loop.index }}')">{{ module_name }}</button>
+            <!-- Go button -->
+            <button class="go-button" onclick="window.location.href='/{{ loop.index }}'">Go</button>
+            <ul id="module{{ loop.index }}" class="subtopics">
+                {% for subtopic in subtopics %}
+                <li>{{ subtopic }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Main content -->
+    <div class="content">
+        <h1>{{ module[0] }}</h1>
+    <div>
+        <p>{{ text[0] }}</p>
+        <iframe width="560" height="315" src={{links[0][0]}}></iframe>
+    </div>
+
+    <h1>{{ module[1] }}</h1>
+    <div>
+        <p>{{ text[1] }}</p>
+        <iframe width="560" height="315" src={{links[1][0]}}></iframe>
+    </div>
+    <h1>{{ module[2] }}</h1>
+    <div>
+        <p>{{ text[2] }}</p>
+        <iframe width="560" height="315" src={{links[2][0]}}></iframe>
+    </div>
+    <h1>{{ module[3] }}</h1>
+    <div>
+        <p>{{ text[3] }}</p>
+        <iframe width="560" height="315" src={{links[3][0]}}></iframe>
+    </div>
+    <h1>{{ module[4] }}</h1>
+    <div>
+        <p>{{ text[4] }}</p>
+        <iframe width="560" height="315" src={{links[4][0]}}></iframe>
+    </div>
+    </div>
+</body>
+</html>

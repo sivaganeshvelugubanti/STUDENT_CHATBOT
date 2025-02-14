@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+</head>
+<body>
+    <h1>Quiz Application</h1>
+    {% if score is not none %}
+        <h2>Your Score: {{ score }}/{{ quiz_q|length }}</h2>
+    {% endif %}
+    <form method="POST" action="/">
+        {% for idx, (question, options) in quiz_q %}
+        <div>
+            <h3>{{ idx + 1 }}. {{ question }}</h3>
+            {% for option in options %}
+                <label>
+                    <input type="radio" name="question-{{ idx }}" value="{{ option }}" required>
+                    {{ option }}
+                </label><br>
+            {% endfor %}
+        </div>
+        <br>
+    {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

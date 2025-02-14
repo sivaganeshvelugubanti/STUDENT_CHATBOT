@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Path Result</title>
+    <style>
+        .module {
+            margin: 10px 0;
+        }
+        .module button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            display: block;
+        }
+        .module button:hover {
+            background-color: #0056b3;
+        }
+        .subtopics {
+            margin-left: 20px;
+            display: none; /* Hidden by default */
+        }
+    </style>
+    <script>
+        function toggleSubtopics(moduleId) {
+            const element = document.getElementById(moduleId);
+            if (element.style.display === "none" || element.style.display === "") {
+                element.style.display = "block"; // Show subtopics
+            } else {
+                element.style.display = "none"; // Hide subtopics
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Generated Learning Path</h1>
+    <div>
+        {% for module_name, subtopics in modules.items() %}
+        <div class="module">
+            <!-- Use loop.index to ensure unique IDs -->
+            <button onclick="toggleSubtopics('module{{ loop.index }}')">{{ module_name }}</button>
+            <ul id="module{{ loop.index }}" class="subtopics">
+                {% for subtopic in subtopics %}
+                <li>{{ subtopic }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+    
+    <a href="/">Go back</a>
+</body>
+</html>

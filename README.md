@@ -6,9 +6,10 @@ AI powered chat for student assistance in personalized learning and question slo
 2)Prompt Classification & Output Formatting
 
 The chatbot classifies a student's prompt as either a Topic or a Question using Natural Language Processing (NLP) and formats the output accordingly.
-i). Prompt Classification
 
-**The chatbot first determines whether the user input is:
+i) Prompt Classification
+
+The chatbot first determines whether the user input is:
 
 **Topic → A broad subject (e.g., "Data Science")
 
@@ -23,31 +24,32 @@ i). Prompt Classification
 
 i) If the Prompt is a Topic:
 
-The topic is divided into five modules based on difficulty level, progressing from basic to advanced.
+  1)The topic is divided into five modules based on difficulty level, progressing from basic to advanced.
 
-Each module includes a YouTube video with the highest views related to that topic.
+  2)Each module includes a YouTube video with the highest views related to that topic.
 
-A mini chatbot is available on every page for doubt clarifications.
+  3)A mini chatbot is available on every page for doubt clarifications.
 
-At the end of all modules, a quiz is conducted to assess understanding.
+  4)At the end of all modules, a quiz is conducted to assess understanding.
 
 The quiz results are projected to evaluate the user's learning progress.
+
 ii) If the Prompt is a Question:
 
-The chatbot answers the question step by step, breaking the solution into five clear steps according to the question's complexity.
+   1)The chatbot answers the question step by step, breaking the solution into five clear steps according to the question's complexity.
 
-Each step is explained in detail to ensure better understanding.
+   2)Each step is explained in detail to ensure better understanding.
 
-Example Output:
+  **Example Output:
 
-User Prompt: "What is supervised learning?"
+   User Prompt: "What is supervised learning?"
 
-Chatbot Response:
+   **Chatbot Response:
 
-Definition: Supervised learning is a type of Machine Learning where a model learns from labeled data.
+   1)Definition: Supervised learning is a type of Machine Learning where a model learns from labeled data.
 
-Examples: It includes classification and regression models.
+   2)Examples: It includes classification and regression models.
 
-How It Works: The model is trained using input-output pairs.
+   3)How It Works: The model is trained using input-output pairs.
 
-Use Cases: Used in spam detection, image recognition, etc.
+   4)Use Cases: Used in spam detection, image recognition, etc.

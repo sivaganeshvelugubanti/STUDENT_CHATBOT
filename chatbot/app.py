@@ -23,7 +23,7 @@ modules_dict = {}
 app = Flask(__name__)
 
 # Set up the Generative AI model
-genai.configure(api_key="AIzaSyD101zERBMJp-Us2qlNJ2d8RZp8wBvAWME")
+genai.configure(api_key="genai api key")
 model = genai.GenerativeModel("gemini-1.5-flash")
 def gemini_api_response(user_input):
    
@@ -82,7 +82,7 @@ def generate_learning_path(search_query):
         subtopics = []
     del modules_dict['s:**']  # Removes the key 'b' and its value
     return render_template("results3.html", modules=modules_dict)
-def get_youtube_urls(topics, api_key="AIzaSyC1JxQoVc69q8KdN3gzV0CuElhZuxyJvmc", max_results=1):
+def get_youtube_urls(topics, api_key="youtube api key", max_results=1):
     search_url= "https://www.googleapis.com/youtube/v3/search"
     video_details_url = "https://www.googleapis.com/youtube/v3/videos"
     results = {}
